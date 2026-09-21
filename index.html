@@ -1054,8 +1054,8 @@
       position: relative;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 22px;
-      margin-top: 54px;
+      gap: 28px;
+      margin-top: 48px;
     }
 
     .roadmap::before {
@@ -1063,15 +1063,15 @@
       position: absolute;
       left: 85px;
       right: 85px;
-      top: 94px;
+      top: 88px;
       height: 5px;
       background: rgba(17, 17, 15, 0.18);
     }
 
     .phase {
       position: relative;
-      min-height: 535px;
-      padding: 26px;
+      min-height: 500px;
+      padding: 30px;
       border-radius: 8px;
       border: 1px solid var(--line);
       background: rgba(255, 250, 240, 0.84);
@@ -1088,36 +1088,36 @@
       background: var(--orange);
       color: var(--ink);
       font-family: var(--font-mono);
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 800;
       box-shadow: 0 15px 35px rgba(17, 17, 15, 0.15);
     }
 
     .phase h3 {
-      margin-top: 28px;
-      font-size: 31px;
-      line-height: 1.07;
+      margin-top: 30px;
+      font-size: 38px;
+      line-height: 1;
     }
 
     .phase p {
-      margin-top: 16px;
+      margin-top: 24px;
       color: var(--soft-ink);
-      font-size: 21px;
-      line-height: 1.28;
-      font-weight: 600;
+      font-size: 27px;
+      line-height: 1.3;
+      font-weight: 700;
     }
 
     .phase small {
       position: absolute;
-      left: 26px;
-      right: 26px;
-      bottom: 26px;
+      left: 30px;
+      right: 30px;
+      bottom: 30px;
       display: block;
       padding-top: 16px;
       border-top: 1px solid var(--line);
       color: var(--orange-dark);
       font-family: var(--font-mono);
-      font-size: 15px;
+      font-size: 17px;
       line-height: 1.35;
       font-weight: 700;
       text-transform: uppercase;
@@ -1485,35 +1485,35 @@
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>07 - Roadmap / How to deploy</div>
-        <h2 class="slide-title compact reveal" data-editable>Four phases to improve the current MVP.</h2>
+        <div class="kicker reveal" data-editable>07 - Roadmap</div>
+        <h2 class="slide-title compact reveal" data-editable>Roadmap to production shipping verification.</h2>
         <div class="roadmap">
           <div class="phase reveal">
             <div class="phase-num">1</div>
-            <h3 data-editable>Local MVP</h3>
-            <p data-editable>Run FastAPI, import the bundle, classify emails, extract SI/BL fields, verify, and generate reports.</p>
-            <small data-editable>uvicorn + SQLite + loader.py</small>
+            <h3 data-editable>MVP Validation</h3>
+            <p data-editable>Vercel prototype app<br>Supabase data store<br>SI &amp; BL verification flow</p>
+            <small data-editable>Live MVP</small>
           </div>
           <div class="phase reveal">
             <div class="phase-num">2</div>
-            <h3 data-editable>Accuracy hardening</h3>
-            <p data-editable>Expand normalization, add OCR/vision fallback, and use self-evaluation plus unit tests to reduce false alarms.</p>
-            <small data-editable>EasyOCR + LLM evals + unittest</small>
+            <h3 data-editable>Enterprise Deployment</h3>
+            <p data-editable>Managed cloud infrastructure<br>Encrypted storage<br>Secure access and permissions</p>
+            <small data-editable>Phase 2</small>
           </div>
           <div class="phase reveal">
             <div class="phase-num">3</div>
-            <h3 data-editable>Demo deployment</h3>
-            <p data-editable>Run heavy processing locally, preload Supabase, then deploy a fast read-only UI/API for judges.</p>
-            <small data-editable>Supabase Postgres + Vercel</small>
+            <h3 data-editable>Review Intelligence</h3>
+            <p data-editable>Confidence based routing<br>Higher accuracy extraction<br>Reviewer feedback loop</p>
+            <small data-editable>Phase 3</small>
           </div>
           <div class="phase reveal">
             <div class="phase-num">4</div>
-            <h3 data-editable>Production scale</h3>
-            <p data-editable>Add background workers, object storage, monitoring, reviewer roles, and model/version tracking.</p>
-            <small data-editable>RQ/Celery + S3/Supabase Storage</small>
+            <h3 data-editable>Enterprise Integration</h3>
+            <p data-editable>ERP and email connectors<br>Shipment workflow automation<br>Multi-region reporting</p>
+            <small data-editable>Phase 4</small>
           </div>
         </div>
-        <div class="footer"><span>Veritas by tehOLimauAis - Latin for truth</span><span class="slide-number">07 / 07</span></div>
+        <div class="footer"><span>Roadmap phase content from Averis Veritas Pitch Deck slide 6</span><span class="slide-number">07 / 07</span></div>
       </section>
     </main>
   </div>
