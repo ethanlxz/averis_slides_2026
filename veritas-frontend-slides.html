@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veritas - Averis Shipping Document Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* === THEME VARIABLES ===
+       Edit these values to quickly change the entire deck mood. */
+    :root {
+      --stage-bg: #11110f;
+      --slide-bg: #f7f2e8;
+      --ink: #11110f;
+      --soft-ink: #41413b;
+      --muted: #757165;
+      --paper: #f7f2e8;
+      --paper-2: #fffaf0;
+      --line: rgba(17, 17, 15, 0.16);
+      --orange: #f29a0a;
+      --orange-dark: #9a5f00;
+      --lime: #b7d957;
+      --green: #316f49;
+      --danger: #cf4d33;
+      --blueprint: #1b332f;
+      --font-display: "Manrope", sans-serif;
+      --font-mono: "IBM Plex Mono", monospace;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 620ms;
+    }
+
+    /* === RESET ===
+       Keeps slide layout predictable on the fixed 1920x1080 stage. */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===========================================
+       FIXED 16:9 STAGE: MANDATORY BASE STYLES
+       Include this ENTIRE file in every presentation.
+       Slides are authored at 1920x1080 and scaled as a whole.
+       =========================================== */
+
+    /* 1. Lock the browser viewport */
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: var(--stage-bg, #000);
+    }
+
+    /* 2. Full-window deck viewport */
+    .deck-viewport {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        background: var(--stage-bg, #000);
+    }
+
+    /* 3. Fixed 16:9 design canvas.
+       JavaScript sets transform: translate(...) scale(...). */
+    .deck-stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        transform-origin: 0 0;
+        background: var(--slide-bg, #fff);
+    }
+
+    /* 4. Slides stack inside the fixed stage.
+       Content must be laid out at 1920x1080, not reflowed per device. */
+    .slide {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        background: var(--slide-bg, #fff);
+    }
+
+    .slide.active,
+    .slide.visible {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1;
+    }
+
+    /* 5. Keep media inside authored slide bounds */
+    img,
+    video,
+    canvas,
+    svg {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* 6. Presentation chrome stays outside the slide design system */
+    .deck-controls {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+
+    /* 7. Print one fixed-size slide per page */
+    @media print {
+        html,
+        body {
+            width: 1920px;
+            height: auto;
+            overflow: visible;
+            background: #fff;
+        }
+
+        .deck-viewport {
+            position: static;
+            overflow: visible;
+            background: #fff;
+        }
+
+        .deck-stage {
+            position: static;
+            width: auto;
+            height: auto;
+            transform: none !important;
+            background: none;
+        }
+
+        .slide {
+            position: relative;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            width: 1920px;
+            height: 1080px;
+            break-after: page;
+            page-break-after: always;
+        }
+
+        .slide:last-child {
+            break-after: auto;
+            page-break-after: auto;
+        }
+
+        .deck-controls {
+            display: none !important;
+        }
+    }
+
+    /* 8. Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.2s !important;
+        }
+    }
+
+    /* === BASE TYPOGRAPHY ===
+       Large, speaker-friendly type for judging room readability. */
+    body {
+      color: var(--ink);
+      font-family: var(--font-display);
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    li,
+    span,
+    strong {
+      letter-spacing: 0;
+    }
+
+    .slide {
+      padding: 78px 92px 72px;
+      background:
+        linear-gradient(90deg, rgba(17, 17, 15, 0.055) 1px, transparent 1px),
+        linear-gradient(rgba(17, 17, 15, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 85% 12%, rgba(242, 154, 10, 0.22), transparent 350px),
+        linear-gradient(135deg, var(--paper) 0%, #fff8ea 64%, #f2ead9 100%);
+      background-size: 64px 64px, 64px 64px, auto, auto;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--orange), var(--lime));
+    }
+
+    .slide.dark {
+      color: var(--paper);
+      background:
+        linear-gradient(90deg, rgba(255, 250, 240, 0.065) 1px, transparent 1px),
+        linear-gradient(rgba(255, 250, 240, 0.055) 1px, transparent 1px),
+        radial-gradient(circle at 88% 18%, rgba(242, 154, 10, 0.25), transparent 360px),
+        linear-gradient(135deg, #11110f 0%, #1a1a16 62%, #26322c 100%);
+      background-size: 64px 64px, 64px 64px, auto, auto;
+    }
+
+    .slide.dark::before {
+      background: linear-gradient(180deg, var(--orange), var(--lime));
+    }
+
+    /* === SHARED SLIDE COMPONENTS ===
+       These form the repeated design language across the deck. */
+    .brand-lockup {
+      position: absolute;
+      top: 54px;
+      right: 88px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 16px 12px 18px;
+      border: 1px solid rgba(17, 17, 15, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 250, 240, 0.84);
+      color: inherit;
+      z-index: 3;
+    }
+
+    .dark .brand-lockup {
+      border-color: rgba(247, 242, 232, 0.16);
+      background: rgba(255, 250, 240, 0.88);
+      color: var(--ink);
+    }
+
+    .averis-logo {
+      width: 176px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .averis-word {
+      position: relative;
+      font-size: 40px;
+      font-weight: 800;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .averis-word::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -13px;
+      width: 80px;
+      height: 19px;
+      border-radius: 70% 90% 0 0;
+      background: var(--orange);
+      transform: skewX(-15deg);
+    }
+
+    .product-chip {
+      padding: 8px 13px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      color: var(--orange-dark);
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .dark .kicker {
+      color: var(--orange);
+    }
+
+    .kicker::before {
+      content: "";
+      width: 54px;
+      height: 5px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .slide-title {
+      max-width: 1110px;
+      font-size: 82px;
+      line-height: 0.98;
+      font-weight: 800;
+    }
+
+    .slide-title.compact {
+      font-size: 70px;
+      max-width: 1240px;
+    }
+
+    .lead {
+      max-width: 1040px;
+      margin-top: 26px;
+      color: var(--soft-ink);
+      font-size: 32px;
+      line-height: 1.28;
+      font-weight: 600;
+    }
+
+    .dark .lead {
+      color: rgba(247, 242, 232, 0.78);
+    }
+
+    .footer {
+      position: absolute;
+      left: 92px;
+      right: 92px;
+      bottom: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      z-index: 5;
+    }
+
+    .dark .footer {
+      color: rgba(247, 242, 232, 0.58);
+    }
+
+    .slide-number {
+      color: var(--orange-dark);
+    }
+
+    .dark .slide-number {
+      color: var(--orange);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, 0.78);
+      box-shadow: 0 28px 80px rgba(17, 17, 15, 0.08);
+    }
+
+    .dark .panel {
+      border-color: rgba(247, 242, 232, 0.18);
+      background: rgba(255, 250, 240, 0.075);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(242, 154, 10, 0.16);
+      color: var(--orange-dark);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .dark .pill {
+      background: rgba(242, 154, 10, 0.2);
+      color: var(--orange);
+    }
+
+    /* === ANIMATIONS ===
+       Reveals are intentionally subtle and professional. */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity var(--duration-normal) var(--ease-out-expo),
+        transform var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(1) { transition-delay: 80ms; }
+    .reveal:nth-child(2) { transition-delay: 170ms; }
+    .reveal:nth-child(3) { transition-delay: 260ms; }
+    .reveal:nth-child(4) { transition-delay: 350ms; }
+    .reveal:nth-child(5) { transition-delay: 440ms; }
+
+    .draw-line {
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 820ms var(--ease-out-expo);
+    }
+
+    .slide.visible .draw-line {
+      transform: scaleX(1);
+    }
+
+    /* === SLIDE 1: PROBLEM === */
+    .problem-layout {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 580px;
+      gap: 72px;
+      align-items: end;
+      height: 815px;
+      padding-top: 72px;
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 22px;
+      margin-top: 44px;
+      max-width: 940px;
+    }
+
+    .problem-item {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .problem-index {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .problem-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 29px;
+      line-height: 1.12;
+    }
+
+    .problem-item span {
+      display: block;
+      max-width: 760px;
+      color: var(--soft-ink);
+      font-size: 23px;
+      line-height: 1.28;
+      font-weight: 600;
+    }
+
+    .inbox-stack {
+      position: relative;
+      width: 560px;
+      height: 620px;
+    }
+
+    .mail-card {
+      position: absolute;
+      left: 0;
+      width: 500px;
+      min-height: 125px;
+      padding: 22px 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(17, 17, 15, 0.14);
+      background: var(--paper-2);
+      box-shadow: 0 22px 45px rgba(17, 17, 15, 0.11);
+      transform: rotate(var(--r)) translate(var(--x), var(--y));
+    }
+
+    .mail-card:nth-child(1) { --r: -5deg; --x: 10px; --y: 18px; top: 0; }
+    .mail-card:nth-child(2) { --r: 4deg; --x: 44px; --y: 42px; top: 116px; }
+    .mail-card:nth-child(3) { --r: -2deg; --x: 0; --y: 56px; top: 246px; }
+    .mail-card:nth-child(4) { --r: 5deg; --x: 60px; --y: 70px; top: 380px; }
+
+    .mail-card b {
+      display: block;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--orange-dark);
+      text-transform: uppercase;
+    }
+
+    .mail-card p {
+      font-size: 26px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+
+    .risk-stamp {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      width: 190px;
+      height: 190px;
+      display: grid;
+      place-items: center;
+      border: 9px solid var(--danger);
+      border-radius: 50%;
+      color: var(--danger);
+      font-family: var(--font-mono);
+      font-size: 27px;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(-12deg);
+    }
+
+    /* === SLIDE 2: SOLUTION === */
+    .truth-board {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 56px;
+      margin-top: 56px;
+      align-items: center;
+    }
+
+    .veritas-lock {
+      min-height: 570px;
+      padding: 48px;
+      background: var(--ink);
+      color: var(--paper);
+      overflow: hidden;
+    }
+
+    .veritas-lock h3 {
+      font-size: 78px;
+      line-height: 0.96;
+      font-weight: 800;
+    }
+
+    .veritas-lock p {
+      margin-top: 24px;
+      color: rgba(247, 242, 232, 0.72);
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .truth-seal {
+      margin-top: 58px;
+      width: 260px;
+      height: 260px;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(247, 242, 232, 0.22);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(183, 217, 87, 0.18), transparent 62%),
+        rgba(242, 154, 10, 0.12);
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .solution-steps {
+      display: grid;
+      gap: 20px;
+    }
+
+    .solution-step {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      min-height: 108px;
+      padding: 22px 26px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 240, 0.82);
+    }
+
+    .step-icon {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      border-radius: 16px;
+      background: var(--orange);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .solution-step h3 {
+      margin-bottom: 4px;
+      font-size: 31px;
+      line-height: 1.1;
+    }
+
+    .solution-step p {
+      color: var(--soft-ink);
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .step-output {
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* === SLIDE 3: ARCHITECTURE === */
+    .architecture-map {
+      position: relative;
+      height: 690px;
+      margin-top: 48px;
+      padding: 26px 28px;
+      border-radius: 8px;
+      background: rgba(17, 17, 15, 0.92);
+      color: var(--paper);
+      overflow: hidden;
+    }
+
+    .architecture-map::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(247, 242, 232, 0.065) 1px, transparent 1px),
+        linear-gradient(rgba(247, 242, 232, 0.065) 1px, transparent 1px);
+      background-size: 58px 58px;
+      pointer-events: none;
+    }
+
+    .arch-row {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 275px 1fr 310px;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .arch-column {
+      display: grid;
+      align-content: start;
+      gap: 18px;
+      padding: 22px;
+      border-radius: 8px;
+      border: 1px solid rgba(247, 242, 232, 0.18);
+      background: rgba(247, 242, 232, 0.06);
+    }
+
+    .arch-column h3 {
+      color: var(--orange);
+      font-family: var(--font-mono);
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .arch-box {
+      min-height: 80px;
+      padding: 17px 18px;
+      border: 1px solid rgba(247, 242, 232, 0.17);
+      border-radius: 8px;
+      background: rgba(247, 242, 232, 0.08);
+    }
+
+    .arch-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 25px;
+      line-height: 1.1;
+    }
+
+    .arch-box span {
+      display: block;
+      color: rgba(247, 242, 232, 0.66);
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .arch-arrow {
+      position: absolute;
+      z-index: 3;
+      top: 318px;
+      width: 120px;
+      height: 4px;
+      background: var(--orange);
+    }
+
+    .arch-arrow::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: -8px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 14px solid var(--orange);
+    }
+
+    .arch-arrow.one { left: 324px; }
+    .arch-arrow.two { right: 346px; }
+
+    /* === SLIDE 4: TECH === */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 52px;
+    }
+
+    .tech-card {
+      min-height: 220px;
+      padding: 28px;
+    }
+
+    .tech-card h3 {
+      margin-bottom: 18px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .tech-card ul {
+      display: grid;
+      gap: 12px;
+      list-style: none;
+    }
+
+    .tech-card li {
+      display: flex;
+      gap: 10px;
+      color: var(--soft-ink);
+      font-size: 21px;
+      line-height: 1.22;
+      font-weight: 600;
+    }
+
+    .tech-card li::before {
+      content: "";
+      flex: none;
+      width: 9px;
+      height: 9px;
+      margin-top: 9px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .tech-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .tech-token {
+      display: grid;
+      align-content: center;
+      min-height: 96px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tech-token span {
+      margin-top: 6px;
+      color: rgba(247, 242, 232, 0.6);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: none;
+    }
+
+    /* === SLIDE 5: CHALLENGES === */
+    .challenge-board {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
+      margin-top: 52px;
+      align-items: start;
+    }
+
+    .challenge-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .challenge-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 18px;
+      min-height: 116px;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(247, 242, 232, 0.18);
+      background: rgba(247, 242, 232, 0.075);
+    }
+
+    .challenge-item b {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 18px;
+    }
+
+    .challenge-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 29px;
+      line-height: 1.1;
+    }
+
+    .challenge-item span {
+      display: block;
+      color: rgba(247, 242, 232, 0.72);
+      font-size: 22px;
+      line-height: 1.24;
+      font-weight: 600;
+    }
+
+    .judge-card {
+      min-height: 520px;
+      padding: 38px;
+      border-color: rgba(183, 217, 87, 0.34);
+      background:
+        linear-gradient(135deg, rgba(183, 217, 87, 0.16), rgba(242, 154, 10, 0.1)),
+        rgba(247, 242, 232, 0.075);
+    }
+
+    .judge-card h3 {
+      max-width: 500px;
+      font-size: 50px;
+      line-height: 1.02;
+    }
+
+    .judge-card p {
+      margin-top: 25px;
+      color: rgba(247, 242, 232, 0.76);
+      font-size: 27px;
+      line-height: 1.26;
+      font-weight: 600;
+    }
+
+    .verdict-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 44px;
+    }
+
+    .verdict-tags span {
+      padding: 13px 16px;
+      border-radius: 999px;
+      background: rgba(247, 242, 232, 0.12);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* === SLIDE 6: ROADMAP === */
+    .roadmap {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 54px;
+    }
+
+    .roadmap::before {
+      content: "";
+      position: absolute;
+      left: 85px;
+      right: 85px;
+      top: 94px;
+      height: 5px;
+      background: rgba(17, 17, 15, 0.18);
+    }
+
+    .phase {
+      position: relative;
+      min-height: 535px;
+      padding: 26px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 240, 0.84);
+      z-index: 2;
+    }
+
+    .phase-num {
+      display: grid;
+      place-items: center;
+      width: 86px;
+      height: 86px;
+      border: 5px solid var(--paper);
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 30px;
+      font-weight: 800;
+      box-shadow: 0 15px 35px rgba(17, 17, 15, 0.15);
+    }
+
+    .phase h3 {
+      margin-top: 28px;
+      font-size: 31px;
+      line-height: 1.07;
+    }
+
+    .phase p {
+      margin-top: 16px;
+      color: var(--soft-ink);
+      font-size: 21px;
+      line-height: 1.28;
+      font-weight: 600;
+    }
+
+    .phase small {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: 26px;
+      display: block;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--orange-dark);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* === DECK CONTROLS ===
+       Chrome stays outside the authored slide stage. */
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 250, 240, 0.16);
+      border-radius: 999px;
+      background: rgba(17, 17, 15, 0.72);
+      color: var(--paper);
+      backdrop-filter: blur(12px);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .deck-controls button,
+    .edit-toggle,
+    .save-button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--orange);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .deck-controls button {
+      width: 34px;
+      height: 34px;
+    }
+
+    .progress-track {
+      width: 140px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(247, 242, 232, 0.22);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 16.66%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--lime);
+      transition: width 260ms var(--ease-out-expo);
+    }
+
+    /* === INLINE EDITING ===
+       Hover the top-left hotzone or press E to edit slide text. */
+    .edit-hotzone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 10000;
+      cursor: pointer;
+    }
+
+    .edit-toggle {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 10001;
+      min-width: 46px;
+      height: 46px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .edit-toggle.show,
+    .edit-toggle.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .save-button {
+      position: fixed;
+      top: 18px;
+      left: 74px;
+      z-index: 10001;
+      min-height: 46px;
+      padding: 0 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .save-button.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .editing [data-editable] {
+      outline: 2px dashed rgba(242, 154, 10, 0.7);
+      outline-offset: 6px;
+      cursor: text;
+    }
+
+    [contenteditable="true"]:focus {
+      outline: 3px solid var(--lime);
+      outline-offset: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage" aria-label="Veritas presentation">
+      <section class="slide active visible" aria-label="Determine the problem">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="problem-layout">
+          <div>
+            <div class="kicker reveal" data-editable>01 - Determine the problem</div>
+            <h1 class="slide-title reveal" data-editable>Shipping teams lose time finding the truth.</h1>
+            <p class="lead reveal" data-editable>Every inbox can hide a BL discrepancy, a new SI request, an invoice question, a general update, or spam.</p>
+            <div class="problem-list">
+              <div class="problem-item reveal">
+                <div class="problem-index">A</div>
+                <div>
+                  <strong data-editable>Right email, wrong queue</strong>
+                  <span data-editable>Missed document-checking requests never reach verification.</span>
+                </div>
+              </div>
+              <div class="problem-item reveal">
+                <div class="problem-index">B</div>
+                <div>
+                  <strong data-editable>Manual SI vs BL comparison is fragile</strong>
+                  <span data-editable>Names, ports, quantities, and weights must match across documents.</span>
+                </div>
+              </div>
+              <div class="problem-item reveal">
+                <div class="problem-index">C</div>
+                <div>
+                  <strong data-editable>Same meaning, different labels</strong>
+                  <span data-editable>"Port of Loading" and "Load Port" may describe the same field.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inbox-stack reveal" aria-hidden="true">
+            <div class="mail-card"><b>Inbox</b><p>Draft BL attached - please check</p></div>
+            <div class="mail-card"><b>Invoice</b><p>Question on billing reference</p></div>
+            <div class="mail-card"><b>SI request</b><p>Prepare new shipping instruction</p></div>
+            <div class="mail-card"><b>Spam</b><p>Unrelated operational noise</p></div>
+            <div class="risk-stamp">Delay<br>Risk</div>
+          </div>
+        </div>
+        <div class="footer"><span>tehOLimauAis for Averis</span><span class="slide-number">01 / 06</span></div>
+      </section>
+
+      <section class="slide" aria-label="How Veritas solves the problem">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="kicker reveal" data-editable>02 - How our product solves it</div>
+        <h2 class="slide-title compact reveal" data-editable>Veritas turns inbox noise into a verified decision.</h2>
+        <p class="lead reveal" data-editable>Veritas means truth. Our product finds document-comparison requests, checks the SI against the BL, and gives operations a clear next action.</p>
+        <div class="truth-board">
+          <div class="veritas-lock panel reveal">
+            <h3 data-editable>Truth layer for shipping docs</h3>
+            <p data-editable>One place to classify, extract, compare, review, and report.</p>
+            <div class="truth-seal" data-editable>Clear verdict<br>MATCH / MISMATCH / REVIEW</div>
+          </div>
+          <div class="solution-steps">
+            <div class="solution-step reveal">
+              <div class="step-icon">1</div>
+              <div><h3 data-editable>Classify every email</h3><p data-editable>BL comparison, SI request, invoice query, general, or spam.</p></div>
+              <div class="step-output" data-editable>Route</div>
+            </div>
+            <div class="solution-step reveal">
+              <div class="step-icon">2</div>
+              <div><h3 data-editable>Extract seven key fields</h3><p data-editable>Shipper, consignee, notify party, ports, container count, gross weight.</p></div>
+              <div class="step-output" data-editable>Read</div>
+            </div>
+            <div class="solution-step reveal">
+              <div class="step-icon">3</div>
+              <div><h3 data-editable>Normalize and compare</h3><p data-editable>Handle varied labels and show SI vs BL side by side.</p></div>
+              <div class="step-output" data-editable>Decide</div>
+            </div>
+            <div class="solution-step reveal">
+              <div class="step-icon">4</div>
+              <div><h3 data-editable>Escalate uncertain cases</h3><p data-editable>Human review, audit trail, report PDF, and submission JSON.</p></div>
+              <div class="step-output" data-editable>Prove</div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span>Simple result for judges: what changed, why, and who reviewed it</span><span class="slide-number">02 / 06</span></div>
+      </section>
+
+      <section class="slide dark" aria-label="Architecture">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="kicker reveal" data-editable>03 - Architecture</div>
+        <h2 class="slide-title compact reveal" data-editable>FastAPI workflow from inbox to discrepancy report.</h2>
+        <p class="lead reveal" data-editable>Each service has one job: classify, extract, compare, verify, audit, or report.</p>
+        <div class="architecture-map panel reveal">
+          <div class="arch-arrow one draw-line"></div>
+          <div class="arch-arrow two draw-line"></div>
+          <div class="arch-row">
+            <div class="arch-column">
+              <h3 data-editable>Inputs</h3>
+              <div class="arch-box"><strong data-editable>Inbox JSON</strong><span data-editable>Hackathon bundle via loader.py or local server.</span></div>
+              <div class="arch-box"><strong data-editable>Attachments</strong><span data-editable>TXT, PDF, DOCX, XLSX, scanned documents.</span></div>
+              <div class="arch-box"><strong data-editable>Manual uploads</strong><span data-editable>Human can add emails and documents through UI.</span></div>
+            </div>
+            <div class="arch-column">
+              <h3 data-editable>FastAPI + services</h3>
+              <div class="service-grid">
+                <div class="arch-box"><strong data-editable>Classifier</strong><span data-editable>DeepSeek first, rules fallback.</span></div>
+                <div class="arch-box"><strong data-editable>Extractor</strong><span data-editable>Parser, OCR, LLM gap-fill.</span></div>
+                <div class="arch-box"><strong data-editable>Normalizer</strong><span data-editable>Names, ports, counts, weights.</span></div>
+                <div class="arch-box"><strong data-editable>Verifier</strong><span data-editable>MATCH, MISMATCH, REVIEW.</span></div>
+                <div class="arch-box"><strong data-editable>Audit</strong><span data-editable>Append-only event snapshots.</span></div>
+                <div class="arch-box"><strong data-editable>Report</strong><span data-editable>PDF and submission JSON output.</span></div>
+              </div>
+            </div>
+            <div class="arch-column">
+              <h3 data-editable>Outputs</h3>
+              <div class="arch-box"><strong data-editable>Workbench UI</strong><span data-editable>Classified queue and review panel.</span></div>
+              <div class="arch-box"><strong data-editable>Database</strong><span data-editable>SQLite locally; Supabase Postgres for demo deploy.</span></div>
+              <div class="arch-box"><strong data-editable>Evidence</strong><span data-editable>Audit timeline, report PDF, self-eval JSON.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span>Routers expose import, classify, extract, verify, review, audit, and report endpoints</span><span class="slide-number">03 / 06</span></div>
+      </section>
+
+      <section class="slide" aria-label="Technology">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="kicker reveal" data-editable>04 - Tech</div>
+        <h2 class="slide-title compact reveal" data-editable>Practical stack, built for a hackathon demo and real operations.</h2>
+        <div class="tech-grid">
+          <div class="tech-card panel reveal">
+            <span class="pill">Backend</span>
+            <h3 data-editable>FastAPI service layer</h3>
+            <ul>
+              <li data-editable>FastAPI routes for UI and machine APIs.</li>
+              <li data-editable>SQLAlchemy models for emails, documents, extraction, verification, audit.</li>
+              <li data-editable>Jinja2 templates for the review workbench.</li>
+            </ul>
+          </div>
+          <div class="tech-card panel reveal">
+            <span class="pill">Documents</span>
+            <h3 data-editable>Extraction pipeline</h3>
+            <ul>
+              <li data-editable>pdfplumber, pypdf, PyMuPDF for PDFs.</li>
+              <li data-editable>python-docx, openpyxl, and stdlib parsers.</li>
+              <li data-editable>EasyOCR for scanned files.</li>
+            </ul>
+          </div>
+          <div class="tech-card panel reveal">
+            <span class="pill">Intelligence</span>
+            <h3 data-editable>LLM + rules fallback</h3>
+            <ul>
+              <li data-editable>DeepSeek-compatible classifier.</li>
+              <li data-editable>LLM fills missing shipment fields.</li>
+              <li data-editable>Deterministic comparison reduces false alarms.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tech-strip reveal">
+          <div class="tech-token">ReportLab<span>verification PDF</span></div>
+          <div class="tech-token">SQLite<span>local MVP data</span></div>
+          <div class="tech-token">Supabase<span>demo Postgres</span></div>
+          <div class="tech-token">Vercel<span>read-only UI deploy</span></div>
+        </div>
+        <div class="footer"><span>Built to run locally first, then deploy as a stable demo</span><span class="slide-number">04 / 06</span></div>
+      </section>
+
+      <section class="slide dark" aria-label="Challenges">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="kicker reveal" data-editable>05 - Challenges</div>
+        <h2 class="slide-title compact reveal" data-editable>Hard part: be useful when documents are messy.</h2>
+        <div class="challenge-board">
+          <div class="challenge-list">
+            <div class="challenge-item reveal">
+              <b>1</b>
+              <div><strong data-editable>Messy formats</strong><span data-editable>PDFs, Word files, spreadsheets, scanned pages, and inconsistent table layouts.</span></div>
+            </div>
+            <div class="challenge-item reveal">
+              <b>2</b>
+              <div><strong data-editable>Meaning is not always literal</strong><span data-editable>Equivalent field labels and port formats must be normalized before comparison.</span></div>
+            </div>
+            <div class="challenge-item reveal">
+              <b>3</b>
+              <div><strong data-editable>Accuracy over confidence</strong><span data-editable>When unreadable or uncertain, Veritas should ask for review instead of guessing.</span></div>
+            </div>
+            <div class="challenge-item reveal">
+              <b>4</b>
+              <div><strong data-editable>Deployment constraints</strong><span data-editable>OCR and local files are heavy for serverless, so demo data should be preloaded.</span></div>
+            </div>
+          </div>
+          <div class="judge-card panel reveal">
+            <h3 data-editable>What judges should see clearly</h3>
+            <p data-editable>Veritas does not just say "AI checked it." It shows the request type, extracted evidence, SI value, BL value, mismatch field, confidence, reviewer action, and audit trail.</p>
+            <div class="verdict-tags">
+              <span data-editable>Explainable</span>
+              <span data-editable>Reviewable</span>
+              <span data-editable>Auditable</span>
+              <span data-editable>Deployable</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span>Goal: catch real discrepancies without creating noisy false alarms</span><span class="slide-number">05 / 06</span></div>
+      </section>
+
+      <section class="slide" aria-label="Roadmap and deployment">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="kicker reveal" data-editable>06 - Roadmap / How to deploy</div>
+        <h2 class="slide-title compact reveal" data-editable>Four phases to improve the current MVP.</h2>
+        <div class="roadmap">
+          <div class="phase reveal">
+            <div class="phase-num">1</div>
+            <h3 data-editable>Local MVP</h3>
+            <p data-editable>Run FastAPI, import the bundle, classify emails, extract SI/BL fields, verify, and generate reports.</p>
+            <small data-editable>uvicorn + SQLite + loader.py</small>
+          </div>
+          <div class="phase reveal">
+            <div class="phase-num">2</div>
+            <h3 data-editable>Accuracy hardening</h3>
+            <p data-editable>Expand normalization, add OCR/vision fallback, and use self-evaluation plus unit tests to reduce false alarms.</p>
+            <small data-editable>EasyOCR + LLM evals + unittest</small>
+          </div>
+          <div class="phase reveal">
+            <div class="phase-num">3</div>
+            <h3 data-editable>Demo deployment</h3>
+            <p data-editable>Run heavy processing locally, preload Supabase, then deploy a fast read-only UI/API for judges.</p>
+            <small data-editable>Supabase Postgres + Vercel</small>
+          </div>
+          <div class="phase reveal">
+            <div class="phase-num">4</div>
+            <h3 data-editable>Production scale</h3>
+            <p data-editable>Add background workers, object storage, monitoring, reviewer roles, and model/version tracking.</p>
+            <small data-editable>RQ/Celery + S3/Supabase Storage</small>
+          </div>
+        </div>
+        <div class="footer"><span>Veritas by tehOLimauAis - Latin for truth</span><span class="slide-number">06 / 06</span></div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="deck-controls" aria-label="Slide navigation">
+    <button id="prevSlide" aria-label="Previous slide">‹</button>
+    <span id="slideLabel">1 / 6</span>
+    <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+    <button id="nextSlide" aria-label="Next slide">›</button>
+  </nav>
+
+  <div class="edit-hotzone" aria-hidden="true"></div>
+  <button class="edit-toggle" id="editToggle" title="Edit mode (E)" aria-label="Toggle edit mode">E</button>
+  <button class="save-button" id="saveButton" title="Download edited HTML" aria-label="Download edited HTML">Save</button>
+
+  <script>
+    /* === SLIDE PRESENTATION CONTROLLER ===
+       Handles stage scaling, navigation, touch, wheel, and progress state. */
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll(".slide"));
+        this.currentSlide = 0;
+        this.stage = document.getElementById("deckStage");
+        this.label = document.getElementById("slideLabel");
+        this.progress = document.getElementById("progressBar");
+        this.lastWheel = 0;
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupButtonNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.showSlide(0);
+      }
+
+      setupStageScale() {
+        const scale = () => {
+          const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          const x = (window.innerWidth - 1920 * factor) / 2;
+          const y = (window.innerHeight - 1080 * factor) / 2;
+          this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener("resize", scale);
+      }
+
+      setupKeyboardNav() {
+        document.addEventListener("keydown", (event) => {
+          if (event.target && event.target.getAttribute("contenteditable") === "true") return;
+          if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+            event.preventDefault();
+            this.next();
+          }
+          if (["ArrowLeft", "PageUp"].includes(event.key)) {
+            event.preventDefault();
+            this.previous();
+          }
+          if (event.key === "Home") this.showSlide(0);
+          if (event.key === "End") this.showSlide(this.slides.length - 1);
+        });
+      }
+
+      setupButtonNav() {
+        document.getElementById("prevSlide").addEventListener("click", () => this.previous());
+        document.getElementById("nextSlide").addEventListener("click", () => this.next());
+      }
+
+      setupTouchNav() {
+        let startX = 0;
+        let startY = 0;
+        window.addEventListener("touchstart", (event) => {
+          startX = event.changedTouches[0].clientX;
+          startY = event.changedTouches[0].clientY;
+        }, { passive: true });
+        window.addEventListener("touchend", (event) => {
+          const dx = event.changedTouches[0].clientX - startX;
+          const dy = event.changedTouches[0].clientY - startY;
+          if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy)) {
+            dx < 0 ? this.next() : this.previous();
+          }
+        }, { passive: true });
+      }
+
+      setupWheelNav() {
+        window.addEventListener("wheel", (event) => {
+          const now = Date.now();
+          if (now - this.lastWheel < 520) return;
+          if (Math.abs(event.deltaY) < 35) return;
+          this.lastWheel = now;
+          event.deltaY > 0 ? this.next() : this.previous();
+        }, { passive: true });
+      }
+
+      showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === this.currentSlide);
+          slide.classList.toggle("visible", i === this.currentSlide);
+        });
+        this.label.textContent = `${this.currentSlide + 1} / ${this.slides.length}`;
+        this.progress.style.width = `${((this.currentSlide + 1) / this.slides.length) * 100}%`;
+      }
+
+      next() {
+        this.showSlide(this.currentSlide + 1);
+      }
+
+      previous() {
+        this.showSlide(this.currentSlide - 1);
+      }
+    }
+
+    /* === INLINE TEXT EDITOR ===
+       Stores changes locally and can download a copy of the edited deck. */
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.storageKey = "veritas-frontend-slides-edits-v1";
+        this.editables = Array.from(document.querySelectorAll("[data-editable]"));
+        this.toggle = document.getElementById("editToggle");
+        this.saveButton = document.getElementById("saveButton");
+        this.restore();
+        this.setup();
+      }
+
+      setup() {
+        this.toggle.addEventListener("click", () => this.toggleEditMode());
+        this.saveButton.addEventListener("click", () => this.downloadHtml());
+        this.editables.forEach((element, index) => {
+          element.dataset.editId = String(index);
+          element.addEventListener("input", () => this.persist());
+        });
+      }
+
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle("editing", this.isActive);
+        this.toggle.classList.toggle("active", this.isActive);
+        this.saveButton.classList.toggle("show", this.isActive);
+        this.editables.forEach((element) => {
+          element.setAttribute("contenteditable", this.isActive ? "true" : "false");
+        });
+      }
+
+      persist() {
+        const payload = this.editables.map((element) => element.innerHTML);
+        localStorage.setItem(this.storageKey, JSON.stringify(payload));
+      }
+
+      restore() {
+        try {
+          const payload = JSON.parse(localStorage.getItem(this.storageKey) || "[]");
+          payload.forEach((html, index) => {
+            if (this.editables[index]) this.editables[index].innerHTML = html;
+          });
+        } catch (error) {
+          console.warn("Could not restore slide edits", error);
+        }
+      }
+
+      downloadHtml() {
+        this.persist();
+        this.editables.forEach((element) => element.setAttribute("contenteditable", "false"));
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll("[contenteditable]").forEach((element) => {
+          element.setAttribute("contenteditable", "false");
+        });
+        const blob = new Blob(["<!DOCTYPE html>\n" + clone.outerHTML], { type: "text/html" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "veritas-frontend-slides-edited.html";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        if (this.isActive) {
+          this.editables.forEach((element) => element.setAttribute("contenteditable", "true"));
+        }
+      }
+    }
+
+    const deck = new SlidePresentation();
+    const editor = new InlineEditor();
+
+    /* === EDIT HOTZONE BEHAVIOR ===
+       Uses JS timing so the edit button stays clickable after hover. */
+    const hotzone = document.querySelector(".edit-hotzone");
+    const editToggle = document.getElementById("editToggle");
+    let hideTimeout = null;
+
+    hotzone.addEventListener("mouseenter", () => {
+      clearTimeout(hideTimeout);
+      editToggle.classList.add("show");
+    });
+    hotzone.addEventListener("mouseleave", () => {
+      hideTimeout = setTimeout(() => {
+        if (!editor.isActive) editToggle.classList.remove("show");
+      }, 400);
+    });
+    editToggle.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
+    editToggle.addEventListener("mouseleave", () => {
+      hideTimeout = setTimeout(() => {
+        if (!editor.isActive) editToggle.classList.remove("show");
+      }, 400);
+    });
+    hotzone.addEventListener("click", () => editor.toggleEditMode());
+    document.addEventListener("keydown", (event) => {
+      if ((event.key === "e" || event.key === "E") && event.target.getAttribute("contenteditable") !== "true") {
+        editor.toggleEditMode();
+      }
+    });
+  </script>
+</body>
+</html>
