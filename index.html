@@ -536,41 +536,122 @@
       transform: rotate(-12deg);
     }
 
-    /* === SLIDE 2: SOLUTION === */
+    /* === SLIDE 2: INTRO === */
+    .intro-slide {
+      padding: 0;
+      background:
+        radial-gradient(circle at 42% 48%, rgba(183, 217, 87, 0.2), transparent 360px),
+        radial-gradient(circle at 72% 28%, rgba(242, 154, 10, 0.18), transparent 380px),
+        linear-gradient(135deg, var(--paper) 0%, #fffaf0 58%, #eee1c9 100%);
+    }
+
+    .intro-logo {
+      position: absolute;
+      top: 80px;
+      right: 92px;
+      width: 250px;
+      height: auto;
+    }
+
+    .intro-content {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 430px;
+      gap: 72px;
+      align-items: center;
+      padding: 130px 210px 120px 230px;
+    }
+
+    .intro-title {
+      max-width: 900px;
+      font-size: 112px;
+      line-height: 0.92;
+      font-weight: 800;
+    }
+
+    .intro-team {
+      margin-top: 34px;
+      color: var(--orange-dark);
+      font-family: var(--font-mono);
+      font-size: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .team-drink {
+      width: 410px;
+      height: 540px;
+      object-fit: contain;
+      filter: drop-shadow(0 34px 42px rgba(17, 17, 15, 0.22));
+    }
+
+    /* === SLIDE 3: SOLUTION === */
+    .solution-slide {
+      padding-top: 62px;
+      padding-bottom: 68px;
+    }
+
+    .solution-slide .brand-lockup,
+    .architecture-slide .brand-lockup {
+      top: 44px;
+      right: 84px;
+    }
+
+    .solution-slide .kicker,
+    .architecture-slide .kicker {
+      margin-bottom: 20px;
+    }
+
+    .solution-slide .slide-title.compact,
+    .architecture-slide .slide-title.compact {
+      max-width: 1180px;
+      font-size: 62px;
+      line-height: 1;
+    }
+
+    .solution-slide .lead,
+    .architecture-slide .lead {
+      max-width: 1260px;
+      margin-top: 18px;
+      font-size: 28px;
+      line-height: 1.22;
+    }
+
     .truth-board {
       display: grid;
-      grid-template-columns: 430px 1fr;
-      gap: 56px;
-      margin-top: 56px;
+      grid-template-columns: 400px 1fr;
+      gap: 42px;
+      margin-top: 34px;
       align-items: center;
     }
 
     .veritas-lock {
-      min-height: 570px;
-      padding: 48px;
+      min-height: 500px;
+      padding: 38px;
       background: var(--ink);
       color: var(--paper);
       overflow: hidden;
     }
 
     .veritas-lock h3 {
-      font-size: 78px;
-      line-height: 0.96;
+      font-size: 64px;
+      line-height: 0.98;
       font-weight: 800;
     }
 
     .veritas-lock p {
-      margin-top: 24px;
+      margin-top: 20px;
       color: rgba(247, 242, 232, 0.72);
-      font-size: 28px;
+      font-size: 25px;
       line-height: 1.25;
       font-weight: 600;
     }
 
     .truth-seal {
-      margin-top: 58px;
-      width: 260px;
-      height: 260px;
+      margin-top: 36px;
+      width: 210px;
+      height: 210px;
       display: grid;
       place-items: center;
       border: 2px solid rgba(247, 242, 232, 0.22);
@@ -579,7 +660,7 @@
         radial-gradient(circle, rgba(183, 217, 87, 0.18), transparent 62%),
         rgba(242, 154, 10, 0.12);
       font-family: var(--font-mono);
-      font-size: 19px;
+      font-size: 16px;
       font-weight: 700;
       text-align: center;
       text-transform: uppercase;
@@ -587,16 +668,16 @@
 
     .solution-steps {
       display: grid;
-      gap: 20px;
+      gap: 14px;
     }
 
     .solution-step {
       display: grid;
-      grid-template-columns: 76px 1fr auto;
-      gap: 24px;
+      grid-template-columns: 68px 1fr auto;
+      gap: 20px;
       align-items: center;
-      min-height: 108px;
-      padding: 22px 26px;
+      min-height: 96px;
+      padding: 17px 22px;
       border-radius: 8px;
       border: 1px solid var(--line);
       background: rgba(255, 250, 240, 0.82);
@@ -605,25 +686,25 @@
     .step-icon {
       display: grid;
       place-items: center;
-      width: 76px;
-      height: 76px;
+      width: 68px;
+      height: 68px;
       border-radius: 16px;
       background: var(--orange);
       color: var(--ink);
       font-family: var(--font-mono);
-      font-size: 28px;
+      font-size: 25px;
       font-weight: 800;
     }
 
     .solution-step h3 {
       margin-bottom: 4px;
-      font-size: 31px;
+      font-size: 27px;
       line-height: 1.1;
     }
 
     .solution-step p {
       color: var(--soft-ink);
-      font-size: 22px;
+      font-size: 20px;
       line-height: 1.25;
       font-weight: 600;
     }
@@ -637,12 +718,17 @@
       white-space: nowrap;
     }
 
-    /* === SLIDE 3: ARCHITECTURE === */
+    /* === SLIDE 4: ARCHITECTURE === */
+    .architecture-slide {
+      padding-top: 62px;
+      padding-bottom: 68px;
+    }
+
     .architecture-map {
       position: relative;
-      height: 690px;
-      margin-top: 48px;
-      padding: 26px 28px;
+      height: 590px;
+      margin-top: 30px;
+      padding: 22px 24px;
       border-radius: 8px;
       background: rgba(17, 17, 15, 0.92);
       color: var(--paper);
@@ -664,16 +750,16 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 275px 1fr 310px;
-      gap: 24px;
+      grid-template-columns: 260px 1fr 292px;
+      gap: 18px;
       height: 100%;
     }
 
     .arch-column {
       display: grid;
       align-content: start;
-      gap: 18px;
-      padding: 22px;
+      gap: 14px;
+      padding: 18px;
       border-radius: 8px;
       border: 1px solid rgba(247, 242, 232, 0.18);
       background: rgba(247, 242, 232, 0.06);
@@ -687,8 +773,8 @@
     }
 
     .arch-box {
-      min-height: 80px;
-      padding: 17px 18px;
+      min-height: 72px;
+      padding: 14px 15px;
       border: 1px solid rgba(247, 242, 232, 0.17);
       border-radius: 8px;
       background: rgba(247, 242, 232, 0.08);
@@ -696,15 +782,15 @@
 
     .arch-box strong {
       display: block;
-      margin-bottom: 6px;
-      font-size: 25px;
+      margin-bottom: 5px;
+      font-size: 22px;
       line-height: 1.1;
     }
 
     .arch-box span {
       display: block;
       color: rgba(247, 242, 232, 0.66);
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.25;
       font-weight: 600;
     }
@@ -712,13 +798,13 @@
     .service-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      gap: 14px;
     }
 
     .arch-arrow {
       position: absolute;
       z-index: 3;
-      top: 318px;
+      top: 278px;
       width: 120px;
       height: 4px;
       background: var(--orange);
@@ -739,7 +825,7 @@
     .arch-arrow.one { left: 324px; }
     .arch-arrow.two { right: 346px; }
 
-    /* === SLIDE 4: TECH === */
+    /* === SLIDE 5: TECH === */
     .tech-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -814,7 +900,7 @@
       text-transform: none;
     }
 
-    /* === SLIDE 5: CHALLENGES === */
+    /* === SLIDE 6: CHALLENGES === */
     .challenge-board {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
@@ -907,7 +993,7 @@
       text-transform: uppercase;
     }
 
-    /* === SLIDE 6: ROADMAP === */
+    /* === SLIDE 7: ROADMAP === */
     .roadmap {
       position: relative;
       display: grid;
@@ -1024,7 +1110,7 @@
     }
 
     .progress-bar {
-      width: 16.66%;
+      width: 14.28%;
       height: 100%;
       border-radius: inherit;
       background: var(--lime);
@@ -1135,15 +1221,26 @@
             <div class="risk-stamp">Delay<br>Risk</div>
           </div>
         </div>
-        <div class="footer"><span>tehOLimauAis for Averis</span><span class="slide-number">01 / 06</span></div>
+        <div class="footer"><span>tehOLimauAis for Averis</span><span class="slide-number">01 / 07</span></div>
       </section>
 
-      <section class="slide" aria-label="How Veritas solves the problem">
+      <section class="slide intro-slide" aria-label="Veritas for Averis">
+        <img class="intro-logo reveal" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+        <div class="intro-content">
+          <div>
+            <h1 class="intro-title reveal" data-editable>Veritas for Averis</h1>
+            <p class="intro-team reveal" data-editable>by team TehOLimauAis</p>
+          </div>
+          <img class="team-drink reveal" src="veritas-slides-assets/tehOlimauais.png" alt="Teh O Limau Ais">
+        </div>
+      </section>
+
+      <section class="slide solution-slide" aria-label="How Veritas solves the problem">
         <div class="brand-lockup">
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>02 - How our product solves it</div>
+        <div class="kicker reveal" data-editable>03 - How our product solves it</div>
         <h2 class="slide-title compact reveal" data-editable>Veritas turns inbox noise into a verified decision.</h2>
         <p class="lead reveal" data-editable>Veritas means truth. Our product finds document-comparison requests, checks the SI against the BL, and gives operations a clear next action.</p>
         <div class="truth-board">
@@ -1175,15 +1272,15 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span>Simple result for judges: what changed, why, and who reviewed it</span><span class="slide-number">02 / 06</span></div>
+        <div class="footer"><span>Simple result for judges: what changed, why, and who reviewed it</span><span class="slide-number">03 / 07</span></div>
       </section>
 
-      <section class="slide dark" aria-label="Architecture">
+      <section class="slide dark architecture-slide" aria-label="Architecture">
         <div class="brand-lockup">
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>03 - Architecture</div>
+        <div class="kicker reveal" data-editable>04 - Architecture</div>
         <h2 class="slide-title compact reveal" data-editable>FastAPI workflow from inbox to discrepancy report.</h2>
         <p class="lead reveal" data-editable>Each service has one job: classify, extract, compare, verify, audit, or report.</p>
         <div class="architecture-map panel reveal">
@@ -1215,7 +1312,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span>Routers expose import, classify, extract, verify, review, audit, and report endpoints</span><span class="slide-number">03 / 06</span></div>
+        <div class="footer"><span>Routers expose import, classify, extract, verify, review, audit, and report endpoints</span><span class="slide-number">04 / 07</span></div>
       </section>
 
       <section class="slide" aria-label="Technology">
@@ -1223,7 +1320,7 @@
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>04 - Tech</div>
+        <div class="kicker reveal" data-editable>05 - Tech</div>
         <h2 class="slide-title compact reveal" data-editable>Practical stack, built for a hackathon demo and real operations.</h2>
         <div class="tech-grid">
           <div class="tech-card panel reveal">
@@ -1260,7 +1357,7 @@
           <div class="tech-token">Supabase<span>demo Postgres</span></div>
           <div class="tech-token">Vercel<span>read-only UI deploy</span></div>
         </div>
-        <div class="footer"><span>Built to run locally first, then deploy as a stable demo</span><span class="slide-number">04 / 06</span></div>
+        <div class="footer"><span>Built to run locally first, then deploy as a stable demo</span><span class="slide-number">05 / 07</span></div>
       </section>
 
       <section class="slide dark" aria-label="Challenges">
@@ -1268,7 +1365,7 @@
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>05 - Challenges</div>
+        <div class="kicker reveal" data-editable>06 - Challenges</div>
         <h2 class="slide-title compact reveal" data-editable>Hard part: be useful when documents are messy.</h2>
         <div class="challenge-board">
           <div class="challenge-list">
@@ -1300,7 +1397,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span>Goal: catch real discrepancies without creating noisy false alarms</span><span class="slide-number">05 / 06</span></div>
+        <div class="footer"><span>Goal: catch real discrepancies without creating noisy false alarms</span><span class="slide-number">06 / 07</span></div>
       </section>
 
       <section class="slide" aria-label="Roadmap and deployment">
@@ -1308,7 +1405,7 @@
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>06 - Roadmap / How to deploy</div>
+        <div class="kicker reveal" data-editable>07 - Roadmap / How to deploy</div>
         <h2 class="slide-title compact reveal" data-editable>Four phases to improve the current MVP.</h2>
         <div class="roadmap">
           <div class="phase reveal">
@@ -1336,14 +1433,14 @@
             <small data-editable>RQ/Celery + S3/Supabase Storage</small>
           </div>
         </div>
-        <div class="footer"><span>Veritas by tehOLimauAis - Latin for truth</span><span class="slide-number">06 / 06</span></div>
+        <div class="footer"><span>Veritas by tehOLimauAis - Latin for truth</span><span class="slide-number">07 / 07</span></div>
       </section>
     </main>
   </div>
 
   <nav class="deck-controls" aria-label="Slide navigation">
     <button id="prevSlide" aria-label="Previous slide">‹</button>
-    <span id="slideLabel">1 / 6</span>
+    <span id="slideLabel">1 / 7</span>
     <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
     <button id="nextSlide" aria-label="Next slide">›</button>
   </nav>
