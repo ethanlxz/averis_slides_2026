@@ -622,36 +622,37 @@
       display: grid;
       grid-template-columns: 400px 1fr;
       gap: 42px;
-      margin-top: 34px;
+      margin-top: 28px;
       align-items: center;
     }
 
     .veritas-lock {
-      min-height: 500px;
-      padding: 38px;
+      min-height: 430px;
+      align-self: start;
+      padding: 30px 32px;
       background: var(--ink);
       color: var(--paper);
       overflow: hidden;
     }
 
     .veritas-lock h3 {
-      font-size: 64px;
-      line-height: 0.98;
+      font-size: 56px;
+      line-height: 0.96;
       font-weight: 800;
     }
 
     .veritas-lock p {
-      margin-top: 20px;
+      margin-top: 18px;
       color: rgba(247, 242, 232, 0.72);
-      font-size: 25px;
-      line-height: 1.25;
+      font-size: 23px;
+      line-height: 1.2;
       font-weight: 600;
     }
 
     .truth-seal {
-      margin-top: 36px;
-      width: 210px;
-      height: 210px;
+      margin-top: 26px;
+      width: 170px;
+      height: 170px;
       display: grid;
       place-items: center;
       border: 2px solid rgba(247, 242, 232, 0.22);
@@ -660,7 +661,7 @@
         radial-gradient(circle, rgba(183, 217, 87, 0.18), transparent 62%),
         rgba(242, 154, 10, 0.12);
       font-family: var(--font-mono);
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 700;
       text-align: center;
       text-transform: uppercase;
@@ -668,16 +669,16 @@
 
     .solution-steps {
       display: grid;
-      gap: 14px;
+      gap: 10px;
     }
 
     .solution-step {
       display: grid;
-      grid-template-columns: 68px 1fr auto;
-      gap: 20px;
+      grid-template-columns: 60px 1fr auto;
+      gap: 16px;
       align-items: center;
-      min-height: 96px;
-      padding: 17px 22px;
+      min-height: 82px;
+      padding: 13px 18px;
       border-radius: 8px;
       border: 1px solid var(--line);
       background: rgba(255, 250, 240, 0.82);
@@ -686,33 +687,33 @@
     .step-icon {
       display: grid;
       place-items: center;
-      width: 68px;
-      height: 68px;
-      border-radius: 16px;
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
       background: var(--orange);
       color: var(--ink);
       font-family: var(--font-mono);
-      font-size: 25px;
+      font-size: 23px;
       font-weight: 800;
     }
 
     .solution-step h3 {
-      margin-bottom: 4px;
-      font-size: 27px;
+      margin-bottom: 3px;
+      font-size: 25px;
       line-height: 1.1;
     }
 
     .solution-step p {
       color: var(--soft-ink);
-      font-size: 20px;
-      line-height: 1.25;
+      font-size: 18px;
+      line-height: 1.22;
       font-weight: 600;
     }
 
     .step-output {
       color: var(--green);
       font-family: var(--font-mono);
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       text-transform: uppercase;
       white-space: nowrap;
@@ -726,9 +727,9 @@
 
     .architecture-map {
       position: relative;
-      height: 590px;
+      height: 630px;
       margin-top: 30px;
-      padding: 22px 24px;
+      padding: 24px 26px;
       border-radius: 8px;
       background: rgba(17, 17, 15, 0.92);
       color: var(--paper);
@@ -746,84 +747,128 @@
       pointer-events: none;
     }
 
-    .arch-row {
+    .arch-flow {
       position: relative;
       z-index: 2;
-      display: grid;
-      grid-template-columns: 260px 1fr 292px;
-      gap: 18px;
+      width: 100%;
       height: 100%;
     }
 
-    .arch-column {
+    .flow-node {
+      position: absolute;
       display: grid;
-      align-content: start;
-      gap: 14px;
-      padding: 18px;
+      align-content: center;
+      justify-items: center;
+      width: 250px;
+      min-height: 78px;
+      padding: 14px 16px;
       border-radius: 8px;
       border: 1px solid rgba(247, 242, 232, 0.18);
-      background: rgba(247, 242, 232, 0.06);
+      background:
+        linear-gradient(135deg, rgba(247, 242, 232, 0.12), rgba(247, 242, 232, 0.05)),
+        rgba(17, 17, 15, 0.76);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.16);
+      text-align: center;
     }
 
-    .arch-column h3 {
-      color: var(--orange);
+    .flow-node strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.06;
+    }
+
+    .flow-node span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(247, 242, 232, 0.66);
       font-family: var(--font-mono);
-      font-size: 18px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.18;
       text-transform: uppercase;
     }
 
-    .arch-box {
-      min-height: 72px;
-      padding: 14px 15px;
-      border: 1px solid rgba(247, 242, 232, 0.17);
-      border-radius: 8px;
-      background: rgba(247, 242, 232, 0.08);
+    .flow-node.decision {
+      width: 160px;
+      min-height: 112px;
+      border-color: rgba(242, 154, 10, 0.55);
+      background:
+        linear-gradient(135deg, rgba(242, 154, 10, 0.28), rgba(183, 217, 87, 0.13)),
+        rgba(17, 17, 15, 0.8);
+      transform: rotate(45deg);
     }
 
-    .arch-box strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 22px;
-      line-height: 1.1;
+    .flow-node.decision strong {
+      font-family: var(--font-mono);
+      font-size: 21px;
+      text-transform: uppercase;
+      transform: rotate(-45deg);
     }
 
-    .arch-box span {
-      display: block;
-      color: rgba(247, 242, 232, 0.66);
-      font-size: 15px;
-      line-height: 1.25;
-      font-weight: 600;
+    .flow-node.terminal {
+      border-color: rgba(183, 217, 87, 0.36);
+      background:
+        linear-gradient(135deg, rgba(183, 217, 87, 0.22), rgba(247, 242, 232, 0.05)),
+        rgba(17, 17, 15, 0.76);
     }
 
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+    .flow-node.database {
+      border-radius: 999px;
+      border-color: rgba(183, 217, 87, 0.5);
+      background:
+        linear-gradient(135deg, rgba(183, 217, 87, 0.26), rgba(242, 154, 10, 0.12)),
+        rgba(17, 17, 15, 0.78);
     }
 
-    .arch-arrow {
+    .flow-connectors {
       position: absolute;
+      inset: 0;
       z-index: 3;
-      top: 278px;
-      width: 120px;
-      height: 4px;
-      background: var(--orange);
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
     }
 
-    .arch-arrow::after {
-      content: "";
+    .flow-connectors > path {
+      fill: none;
+      stroke: var(--orange);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .flow-label {
       position: absolute;
-      right: -10px;
-      top: -8px;
-      width: 0;
-      height: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-left: 14px solid var(--orange);
+      z-index: 5;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(17, 17, 15, 0.92);
+      color: var(--lime);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    .arch-arrow.one { left: 324px; }
-    .arch-arrow.two { right: 346px; }
+    .flow-a { left: 22px; top: 30px; }
+    .flow-b { left: 340px; top: 30px; }
+    .flow-c { left: 658px; top: 30px; }
+    .flow-d { left: 976px; top: 30px; }
+    .flow-e { left: 1294px; top: 30px; }
+    .flow-f { left: 1340px; top: 168px; }
+    .flow-g { left: 900px; top: 330px; }
+    .flow-h { left: 1208px; top: 330px; width: 244px; }
+    .flow-i { left: 1484px; top: 330px; width: 204px; }
+    .flow-j { left: 1164px; top: 472px; width: 300px; }
+    .flow-k { left: 720px; top: 472px; width: 240px; }
+    .flow-l { left: 380px; top: 472px; width: 240px; }
+    .flow-m { left: 22px; top: 472px; width: 260px; }
+
+    .label-match { left: 1032px; top: 250px; }
+    .label-mismatch { left: 1236px; top: 250px; }
+    .label-review { left: 1484px; top: 250px; }
 
     /* === SLIDE 5: TECH === */
     .tech-grid {
@@ -1179,52 +1224,7 @@
 <body>
   <div class="deck-viewport">
     <main class="deck-stage" id="deckStage" aria-label="Veritas presentation">
-      <section class="slide active visible" aria-label="Determine the problem">
-        <div class="brand-lockup">
-          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
-          <div class="product-chip">Veritas</div>
-        </div>
-        <div class="problem-layout">
-          <div>
-            <div class="kicker reveal" data-editable>01 - Determine the problem</div>
-            <h1 class="slide-title reveal" data-editable>Shipping teams lose time finding the truth.</h1>
-            <p class="lead reveal" data-editable>Every inbox can hide a BL discrepancy, a new SI request, an invoice question, a general update, or spam.</p>
-            <div class="problem-list">
-              <div class="problem-item reveal">
-                <div class="problem-index">A</div>
-                <div>
-                  <strong data-editable>Right email, wrong queue</strong>
-                  <span data-editable>Missed document-checking requests never reach verification.</span>
-                </div>
-              </div>
-              <div class="problem-item reveal">
-                <div class="problem-index">B</div>
-                <div>
-                  <strong data-editable>Manual SI vs BL comparison is fragile</strong>
-                  <span data-editable>Names, ports, quantities, and weights must match across documents.</span>
-                </div>
-              </div>
-              <div class="problem-item reveal">
-                <div class="problem-index">C</div>
-                <div>
-                  <strong data-editable>Same meaning, different labels</strong>
-                  <span data-editable>"Port of Loading" and "Load Port" may describe the same field.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="inbox-stack reveal" aria-hidden="true">
-            <div class="mail-card"><b>Inbox</b><p>Draft BL attached - please check</p></div>
-            <div class="mail-card"><b>Invoice</b><p>Question on billing reference</p></div>
-            <div class="mail-card"><b>SI request</b><p>Prepare new shipping instruction</p></div>
-            <div class="mail-card"><b>Spam</b><p>Unrelated operational noise</p></div>
-            <div class="risk-stamp">Delay<br>Risk</div>
-          </div>
-        </div>
-        <div class="footer"><span>tehOLimauAis for Averis</span><span class="slide-number">01 / 07</span></div>
-      </section>
-
-      <section class="slide intro-slide" aria-label="Veritas for Averis">
+      <section class="slide intro-slide active visible" aria-label="Veritas for Averis">
         <img class="intro-logo reveal" src="veritas-slides-assets/averis-logo.png" alt="Averis">
         <div class="intro-content">
           <div>
@@ -1235,44 +1235,94 @@
         </div>
       </section>
 
+      <section class="slide" aria-label="Determine the problem">
+        <div class="brand-lockup">
+          <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
+          <div class="product-chip">Veritas</div>
+        </div>
+        <div class="problem-layout">
+          <div>
+            <div class="kicker reveal" data-editable>02 - Determine the problem</div>
+            <h1 class="slide-title reveal" data-editable>Finding and verifying draft BLs takes too much manual effort.</h1>
+            <p class="lead reveal" data-editable>Shipping teams spend hours sifting through mixed requests and inconsistent file formats to perform cross-checks</p>
+            <div class="problem-list">
+              <div class="problem-item reveal">
+                <div class="problem-index">A</div>
+                <div>
+                  <strong data-editable>Mixed messages, one inbox</strong>
+                  <span data-editable>SI requests, BL comparison requests, invoices, general updates, and spam arrive together.</span>
+                </div>
+              </div>
+              <div class="problem-item reveal">
+                <div class="problem-index">B</div>
+                <div>
+                  <strong data-editable>Documents arrive in messy formats</strong>
+                  <span data-editable>TXT, PDF, DOCX, XLSX, scanned files, missing attachments, and unreadable pages all appear.</span>
+                </div>
+              </div>
+              <div class="problem-item reveal">
+                <div class="problem-index">C</div>
+                <div>
+                  <strong data-editable>Same meaning, different labels</strong>
+                  <span data-editable>Fields like POL, Load Port, names, weights, and quantities can be formatted differently.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inbox-stack reveal" aria-hidden="true">
+            <div class="mail-card"><b>BL comparison</b><p>Draft BL attached - please check against SI</p></div>
+            <div class="mail-card"><b>Invoice query</b><p>Question on billing reference</p></div>
+            <div class="mail-card"><b>SI request</b><p>Prepare new shipping instruction</p></div>
+            <div class="mail-card"><b>Spam</b><p>Unrelated operational noise</p></div>
+            <div class="risk-stamp">False<br>Confidence</div>
+          </div>
+        </div>
+        <div class="footer"><span>tehOLimauAis for Averis</span><span class="slide-number">02 / 07</span></div>
+      </section>
+
       <section class="slide solution-slide" aria-label="How Veritas solves the problem">
         <div class="brand-lockup">
           <img class="averis-logo" src="veritas-slides-assets/averis-logo.png" alt="Averis">
           <div class="product-chip">Veritas</div>
         </div>
-        <div class="kicker reveal" data-editable>03 - How our product solves it</div>
-        <h2 class="slide-title compact reveal" data-editable>Veritas turns inbox noise into a verified decision.</h2>
-        <p class="lead reveal" data-editable>Veritas means truth. Our product finds document-comparison requests, checks the SI against the BL, and gives operations a clear next action.</p>
+        <div class="kicker reveal" data-editable>03 - Purpose</div>
+        <h2 class="slide-title compact reveal" data-editable>Veritas reduces manual review while keeping humans in control.</h2>
+        <p class="lead reveal" data-editable>The name Veritas reflects the goal of the project: verify shipping truth from messy operational documents before a draft Bill of Lading is finalized.</p>
         <div class="truth-board">
           <div class="veritas-lock panel reveal">
-            <h3 data-editable>Truth layer for shipping docs</h3>
-            <p data-editable>One place to classify, extract, compare, review, and report.</p>
+            <h3 data-editable>Purpose-built truth layer</h3>
+            <p data-editable>Built to find, verify, explain, review, and export shipping document decisions.</p>
             <div class="truth-seal" data-editable>Clear verdict<br>MATCH / MISMATCH / REVIEW</div>
           </div>
           <div class="solution-steps">
             <div class="solution-step reveal">
               <div class="step-icon">1</div>
-              <div><h3 data-editable>Classify every email</h3><p data-editable>BL comparison, SI request, invoice query, general, or spam.</p></div>
-              <div class="step-output" data-editable>Route</div>
+              <div><h3 data-editable>Find comparison emails</h3><p data-editable>Pull document-comparison requests out of a noisy operations inbox.</p></div>
+              <div class="step-output" data-editable>Find</div>
             </div>
             <div class="solution-step reveal">
               <div class="step-icon">2</div>
-              <div><h3 data-editable>Extract seven key fields</h3><p data-editable>Shipper, consignee, notify party, ports, container count, gross weight.</p></div>
-              <div class="step-output" data-editable>Read</div>
+              <div><h3 data-editable>Extract seven shipment fields</h3><p data-editable>Read required SI and BL values from attachments before comparison.</p></div>
+              <div class="step-output" data-editable>Extract</div>
             </div>
             <div class="solution-step reveal">
               <div class="step-icon">3</div>
-              <div><h3 data-editable>Normalize and compare</h3><p data-editable>Handle varied labels and show SI vs BL side by side.</p></div>
-              <div class="step-output" data-editable>Decide</div>
+              <div><h3 data-editable>Compare SI against BL</h3><p data-editable>Explain exactly what differs instead of returning a vague decision.</p></div>
+              <div class="step-output" data-editable>Explain</div>
             </div>
             <div class="solution-step reveal">
               <div class="step-icon">4</div>
-              <div><h3 data-editable>Escalate uncertain cases</h3><p data-editable>Human review, audit trail, report PDF, and submission JSON.</p></div>
-              <div class="step-output" data-editable>Prove</div>
+              <div><h3 data-editable>Keep uncertainty reviewable</h3><p data-editable>Mark incomplete cases as NEEDS_REVIEW and preserve audit, report, and JSON output.</p></div>
+              <div class="step-output" data-editable>Control</div>
+            </div>
+            <div class="solution-step reveal">
+              <div class="step-icon">5</div>
+              <div><h3 data-editable>Make decisions reproducible</h3><p data-editable>Store audit snapshots and a reproducibility hash so each verdict can be traced.</p></div>
+              <div class="step-output" data-editable>Audit</div>
             </div>
           </div>
         </div>
-        <div class="footer"><span>Simple result for judges: what changed, why, and who reviewed it</span><span class="slide-number">03 / 07</span></div>
+        <div class="footer"><span>Purpose: reduce review effort without forcing fragile automation decisions</span><span class="slide-number">03 / 07</span></div>
       </section>
 
       <section class="slide dark architecture-slide" aria-label="Architecture">
@@ -1281,35 +1331,49 @@
           <div class="product-chip">Veritas</div>
         </div>
         <div class="kicker reveal" data-editable>04 - Architecture</div>
-        <h2 class="slide-title compact reveal" data-editable>FastAPI workflow from inbox to discrepancy report.</h2>
+        <h2 class="slide-title compact reveal" data-editable>Architecture Diagram</h2>
         <p class="lead reveal" data-editable>Each service has one job: classify, extract, compare, verify, audit, or report.</p>
         <div class="architecture-map panel reveal">
-          <div class="arch-arrow one draw-line"></div>
-          <div class="arch-arrow two draw-line"></div>
-          <div class="arch-row">
-            <div class="arch-column">
-              <h3 data-editable>Inputs</h3>
-              <div class="arch-box"><strong data-editable>Inbox JSON</strong><span data-editable>Hackathon bundle via loader.py or local server.</span></div>
-              <div class="arch-box"><strong data-editable>Attachments</strong><span data-editable>TXT, PDF, DOCX, XLSX, scanned documents.</span></div>
-              <div class="arch-box"><strong data-editable>Manual uploads</strong><span data-editable>Human can add emails and documents through UI.</span></div>
-            </div>
-            <div class="arch-column">
-              <h3 data-editable>FastAPI + services</h3>
-              <div class="service-grid">
-                <div class="arch-box"><strong data-editable>Classifier</strong><span data-editable>DeepSeek first, rules fallback.</span></div>
-                <div class="arch-box"><strong data-editable>Extractor</strong><span data-editable>Parser, OCR, LLM gap-fill.</span></div>
-                <div class="arch-box"><strong data-editable>Normalizer</strong><span data-editable>Names, ports, counts, weights.</span></div>
-                <div class="arch-box"><strong data-editable>Verifier</strong><span data-editable>MATCH, MISMATCH, REVIEW.</span></div>
-                <div class="arch-box"><strong data-editable>Audit</strong><span data-editable>Append-only event snapshots.</span></div>
-                <div class="arch-box"><strong data-editable>Report</strong><span data-editable>PDF and submission JSON output.</span></div>
-              </div>
-            </div>
-            <div class="arch-column">
-              <h3 data-editable>Outputs</h3>
-              <div class="arch-box"><strong data-editable>Workbench UI</strong><span data-editable>Classified queue and review panel.</span></div>
-              <div class="arch-box"><strong data-editable>Database</strong><span data-editable>SQLite locally; Supabase Postgres for demo deploy.</span></div>
-              <div class="arch-box"><strong data-editable>Evidence</strong><span data-editable>Audit timeline, report PDF, self-eval JSON.</span></div>
-            </div>
+          <div class="arch-flow">
+            <svg class="flow-connectors" viewBox="0 0 1700 582" aria-hidden="true">
+              <defs>
+                <marker id="flowArrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L12,6 L0,12 Z" fill="var(--orange)"></path>
+                </marker>
+              </defs>
+              <path d="M272 69 H340" marker-end="url(#flowArrowHead)"></path>
+              <path d="M590 69 H658" marker-end="url(#flowArrowHead)"></path>
+              <path d="M908 69 H976" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1226 69 H1294" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1419 108 V166" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1364 224 H1025 V330" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1420 280 V304 H1330 V330" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1476 224 H1586 V330" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1025 408 V430 H1264 V472" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1330 408 V472" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1586 408 V430 H1404 V472" marker-end="url(#flowArrowHead)"></path>
+              <path d="M1164 511 H960" marker-end="url(#flowArrowHead)"></path>
+              <path d="M720 511 H620" marker-end="url(#flowArrowHead)"></path>
+              <path d="M840 550 V568 H152 V550" marker-end="url(#flowArrowHead)"></path>
+            </svg>
+
+            <span class="flow-label label-match">Match</span>
+            <span class="flow-label label-mismatch">Mismatch</span>
+            <span class="flow-label label-review">Needs Review</span>
+
+            <div class="flow-node flow-a"><strong data-editable>Email Inbox</strong><span data-editable>JSON + Attachments</span></div>
+            <div class="flow-node flow-b"><strong data-editable>Import &amp; Classify</strong><span data-editable>AI + Rules</span></div>
+            <div class="flow-node flow-c"><strong data-editable>Extract SI / BL Data</strong><span data-editable>Text + OCR</span></div>
+            <div class="flow-node flow-d"><strong data-editable>Normalize Fields</strong></div>
+            <div class="flow-node flow-e"><strong data-editable>Compare SI vs BL</strong></div>
+            <div class="flow-node decision flow-f"><strong data-editable>Decision</strong></div>
+            <div class="flow-node terminal flow-g"><strong data-editable>Verified</strong></div>
+            <div class="flow-node terminal flow-h"><strong data-editable>Discrepancy</strong></div>
+            <div class="flow-node terminal flow-i"><strong data-editable>Human Review</strong></div>
+            <div class="flow-node terminal flow-j"><strong data-editable>Verification Report</strong></div>
+            <div class="flow-node database flow-k"><strong data-editable>SQLite DB</strong></div>
+            <div class="flow-node terminal flow-l"><strong data-editable>Audit Trail</strong></div>
+            <div class="flow-node terminal flow-m"><strong data-editable>JSON Submission</strong><span data-editable>Final Output</span></div>
           </div>
         </div>
         <div class="footer"><span>Routers expose import, classify, extract, verify, review, audit, and report endpoints</span><span class="slide-number">04 / 07</span></div>
