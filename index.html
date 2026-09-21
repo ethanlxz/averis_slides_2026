@@ -1054,15 +1054,17 @@
       position: relative;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 28px;
+      gap: 22px;
+      width: calc(100% + 72px);
+      margin-left: -36px;
       margin-top: 48px;
     }
 
     .roadmap::before {
       content: "";
       position: absolute;
-      left: 85px;
-      right: 85px;
+      left: 92px;
+      right: 92px;
       top: 88px;
       height: 5px;
       background: rgba(17, 17, 15, 0.18);
@@ -1070,7 +1072,7 @@
 
     .phase {
       position: relative;
-      min-height: 500px;
+      min-height: 520px;
       padding: 30px;
       border-radius: 8px;
       border: 1px solid var(--line);
