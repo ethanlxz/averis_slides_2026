@@ -871,84 +871,84 @@
     .label-review { left: 1484px; top: 250px; }
 
     /* === SLIDE 5: TECH === */
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
+    .tech-table {
+      width: 100%;
       margin-top: 52px;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
     }
 
-    .tech-card {
-      min-height: 220px;
-      padding: 28px;
+    .tech-table th,
+    .tech-table td {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 22px 26px;
+      text-align: left;
+      vertical-align: top;
     }
 
-    .tech-card h3 {
-      margin-bottom: 18px;
-      font-size: 30px;
-      line-height: 1.1;
+    .tech-table th:first-child,
+    .tech-table td:first-child {
+      border-left: 1px solid var(--line);
     }
 
-    .tech-card ul {
-      display: grid;
-      gap: 12px;
-      list-style: none;
-    }
-
-    .tech-card li {
-      display: flex;
-      gap: 10px;
-      color: var(--soft-ink);
-      font-size: 21px;
-      line-height: 1.22;
-      font-weight: 600;
-    }
-
-    .tech-card li::before {
-      content: "";
-      flex: none;
-      width: 9px;
-      height: 9px;
-      margin-top: 9px;
-      border-radius: 50%;
-      background: var(--orange);
-    }
-
-    .tech-strip {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 30px;
-    }
-
-    .tech-token {
-      display: grid;
-      align-content: center;
-      min-height: 96px;
-      padding: 18px 20px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
+    .tech-table thead th {
+      border-top: 1px solid var(--line);
       background: var(--ink);
       color: var(--paper);
       font-family: var(--font-mono);
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 700;
       text-transform: uppercase;
     }
 
-    .tech-token span {
-      margin-top: 6px;
-      color: rgba(247, 242, 232, 0.6);
-      font-family: var(--font-display);
-      font-size: 16px;
+    .tech-table thead th:first-child {
+      border-top-left-radius: 8px;
+    }
+
+    .tech-table thead th:last-child {
+      border-top-right-radius: 8px;
+    }
+
+    .tech-table tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 8px;
+    }
+
+    .tech-table tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 8px;
+    }
+
+    .tech-table tbody td {
+      background: rgba(255, 250, 240, 0.82);
+      color: var(--soft-ink);
+      font-size: 22px;
+      line-height: 1.22;
+      font-weight: 650;
+    }
+
+    .tech-table tbody td:first-child {
+      color: var(--orange-dark);
+      font-family: var(--font-mono);
+      font-size: 18px;
       font-weight: 700;
-      text-transform: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tech-table strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 800;
     }
 
     /* === SLIDE 6: CHALLENGES === */
     .challenge-board {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-columns: 1fr 420px;
       gap: 34px;
       margin-top: 52px;
       align-items: start;
@@ -999,7 +999,7 @@
 
     .judge-card {
       min-height: 520px;
-      padding: 38px;
+      padding: 34px;
       border-color: rgba(183, 217, 87, 0.34);
       background:
         linear-gradient(135deg, rgba(183, 217, 87, 0.16), rgba(242, 154, 10, 0.1)),
@@ -1008,16 +1008,27 @@
 
     .judge-card h3 {
       max-width: 500px;
-      font-size: 50px;
+      font-size: 42px;
       line-height: 1.02;
     }
 
     .judge-card p {
-      margin-top: 25px;
+      margin-top: 18px;
       color: rgba(247, 242, 232, 0.76);
-      font-size: 27px;
-      line-height: 1.26;
+      font-size: 23px;
+      line-height: 1.22;
       font-weight: 600;
+    }
+
+    .repo-qr {
+      display: block;
+      width: 260px;
+      height: 260px;
+      margin-top: 30px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #fff;
+      object-fit: contain;
     }
 
     .verdict-tags {
@@ -1297,7 +1308,7 @@
           <div class="solution-steps">
             <div class="solution-step reveal">
               <div class="step-icon">1</div>
-              <div><h3 data-editable>Find comparison emails</h3><p data-editable>Pull document-comparison requests out of a noisy operations inbox.</p></div>
+              <div><h3 data-editable>Classify/Find comparison emails</h3><p data-editable>Pull document-comparison requests out of a noisy operations inbox.</p></div>
               <div class="step-output" data-editable>Find</div>
             </div>
             <div class="solution-step reveal">
@@ -1385,43 +1396,49 @@
           <div class="product-chip">Veritas</div>
         </div>
         <div class="kicker reveal" data-editable>05 - Tech</div>
-        <h2 class="slide-title compact reveal" data-editable>Practical stack, built for a hackathon demo and real operations.</h2>
-        <div class="tech-grid">
-          <div class="tech-card panel reveal">
-            <span class="pill">Backend</span>
-            <h3 data-editable>FastAPI service layer</h3>
-            <ul>
-              <li data-editable>FastAPI routes for UI and machine APIs.</li>
-              <li data-editable>SQLAlchemy models for emails, documents, extraction, verification, audit.</li>
-              <li data-editable>Jinja2 templates for the review workbench.</li>
-            </ul>
-          </div>
-          <div class="tech-card panel reveal">
-            <span class="pill">Documents</span>
-            <h3 data-editable>Extraction pipeline</h3>
-            <ul>
-              <li data-editable>pdfplumber, pypdf, PyMuPDF for PDFs.</li>
-              <li data-editable>python-docx, openpyxl, and stdlib parsers.</li>
-              <li data-editable>EasyOCR for scanned files.</li>
-            </ul>
-          </div>
-          <div class="tech-card panel reveal">
-            <span class="pill">Intelligence</span>
-            <h3 data-editable>LLM + rules fallback</h3>
-            <ul>
-              <li data-editable>DeepSeek-compatible classifier.</li>
-              <li data-editable>LLM fills missing shipment fields.</li>
-              <li data-editable>Deterministic comparison reduces false alarms.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="tech-strip reveal">
-          <div class="tech-token">ReportLab<span>verification PDF</span></div>
-          <div class="tech-token">SQLite<span>local MVP data</span></div>
-          <div class="tech-token">Supabase<span>demo Postgres</span></div>
-          <div class="tech-token">Vercel<span>read-only UI deploy</span></div>
-        </div>
-        <div class="footer"><span>Built to run locally first, then deploy as a stable demo</span><span class="slide-number">05 / 07</span></div>
+        <h2 class="slide-title compact reveal" data-editable>Tech stack used in Veritas.</h2>
+        <table class="tech-table reveal" aria-label="Tech stack table">
+          <thead>
+            <tr>
+              <th data-editable>Area</th>
+              <th data-editable>Stack</th>
+              <th data-editable>Used for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-editable>Backend</td>
+              <td data-editable><strong>FastAPI, Jinja2</strong>SQLite + SQLAlchemy</td>
+              <td data-editable>Web backend, UI templates, local data storage</td>
+            </tr>
+            <tr>
+              <td data-editable>Documents</td>
+              <td data-editable><strong>pdfplumber, pypdf, PyMuPDF</strong>DOCX XML, openpyxl/XLSX parsing</td>
+              <td data-editable>PDF, DOCX, XLSX, and text extraction</td>
+            </tr>
+            <tr>
+              <td data-editable>OCR</td>
+              <td data-editable><strong>EasyOCR, OpenAI OCR</strong></td>
+              <td data-editable>Scanned and image-like document extraction</td>
+            </tr>
+            <tr>
+              <td data-editable>Intelligence</td>
+              <td data-editable><strong>DeepSeek-compatible classifier</strong>Rule fallback, deterministic SI vs BL comparison</td>
+              <td data-editable>Email classification, normalization, verification</td>
+            </tr>
+            <tr>
+              <td data-editable>Output</td>
+              <td data-editable><strong>ReportLab, JSON</strong></td>
+              <td data-editable>Verification PDF and submission export</td>
+            </tr>
+            <tr>
+              <td data-editable>Deployment</td>
+              <td data-editable><strong>Supabase, Vercel</strong></td>
+              <td data-editable>Live prototype database and deployment</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="footer"><span>Tech stack notation only</span><span class="slide-number">05 / 07</span></div>
       </section>
 
       <section class="slide dark" aria-label="Challenges">
@@ -1430,38 +1447,37 @@
           <div class="product-chip">Veritas</div>
         </div>
         <div class="kicker reveal" data-editable>06 - Challenges</div>
-        <h2 class="slide-title compact reveal" data-editable>Hard part: be useful when documents are messy.</h2>
+        <h2 class="slide-title compact reveal" data-editable>Challenges faced.</h2>
         <div class="challenge-board">
           <div class="challenge-list">
             <div class="challenge-item reveal">
               <b>1</b>
-              <div><strong data-editable>Messy formats</strong><span data-editable>PDFs, Word files, spreadsheets, scanned pages, and inconsistent table layouts.</span></div>
+              <div><strong data-editable>Uncertain Cases</strong><span data-editable>Missing data, OCR errors, wrong documents, and real defects can look alike.</span></div>
             </div>
             <div class="challenge-item reveal">
               <b>2</b>
-              <div><strong data-editable>Meaning is not always literal</strong><span data-editable>Equivalent field labels and port formats must be normalized before comparison.</span></div>
+              <div><strong data-editable>OCR accuracy tradeoff</strong><span data-editable>EasyOCR struggled with messy scans; OpenAI OCR improved quality with API cost and latency.</span></div>
             </div>
             <div class="challenge-item reveal">
               <b>3</b>
-              <div><strong data-editable>Accuracy over confidence</strong><span data-editable>When unreadable or uncertain, Veritas should ask for review instead of guessing.</span></div>
+              <div><strong data-editable>Inconsistent shipping documents</strong><span data-editable>Labels, casing, multilingual text, tables, and parenthetical codes required normalization.</span></div>
             </div>
             <div class="challenge-item reveal">
               <b>4</b>
-              <div><strong data-editable>Deployment constraints</strong><span data-editable>OCR and local files are heavy for serverless, so demo data should be preloaded.</span></div>
+              <div><strong data-editable>Explainability and auditability</strong><span data-editable>Confidence, decision hashes, snapshots, and review actions had to stay traceable.</span></div>
             </div>
           </div>
           <div class="judge-card panel reveal">
-            <h3 data-editable>What judges should see clearly</h3>
-            <p data-editable>Veritas does not just say "AI checked it." It shows the request type, extracted evidence, SI value, BL value, mismatch field, confidence, reviewer action, and audit trail.</p>
+            <h3 data-editable>GitHub repo</h3>
+            <p data-editable>This QR links to the GitHub repo. See the README for more details.</p>
+            <img class="repo-qr" src="veritas-slides-assets/averis_qr.png" alt="GitHub repository QR code">
             <div class="verdict-tags">
-              <span data-editable>Explainable</span>
-              <span data-editable>Reviewable</span>
-              <span data-editable>Auditable</span>
-              <span data-editable>Deployable</span>
+              <span data-editable>README</span>
+              <span data-editable>Repository</span>
             </div>
           </div>
         </div>
-        <div class="footer"><span>Goal: catch real discrepancies without creating noisy false alarms</span><span class="slide-number">06 / 07</span></div>
+        <div class="footer"><span>Challenges summarized from Averis_Project README.md</span><span class="slide-number">06 / 07</span></div>
       </section>
 
       <section class="slide" aria-label="Roadmap and deployment">
